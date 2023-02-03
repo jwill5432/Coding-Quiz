@@ -1,34 +1,56 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Password Generator</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Password Generator</h1>
-      </header>
-      <div class="card">
-        <div class="card-header">
-          <h2>Generate a Password</h2>
-        </div>
-        <div class="card-body">
-          <textarea
-            readonly
-            id="password"
-            placeholder="Your Secure Password"
-            aria-label="Generated Password"
-          ></textarea>
-        </div>
-        <div class="card-footer">
-          <button id="generate" class="btn">Generate Password</button>
-        </div>
-      </div>
-    </div>
-    <script src="script.js"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="C:\Users\John\bootcamp\challenges\coding-quiz\Module4\style.css" />
+        <title>Coding Quiz</title>
+    </head>
+
+    <body>
+        <section class="container">
+            <header>
+                <h1>Coding Quiz</h1>
+                <h2 id="instructions">
+                    <p>Answer the following code-related questions within the time limit.</p>
+                    <p>Incorrect Answers will lower your score.</p>
+                    <h2 id="timer">Time Remaining</h2>
+                </h2>
+            </header>
+            <div class="quizbox">
+                <div class="display">
+                    <button id="topscores" onclick="showTopScores()">Top Scores</button>
+                </div>
+                <div class="quiz" id="quiz">
+                </div>
+                <div id="grade">
+                </div>
+                <button id="startquizbutton">Start Quiz</button>
+                <button id="backbutton" style="display: none;">Back</button>
+
+                <div id="quiz-container" style="display:none;">
+                  <p id="question"></p>
+                  <ul id="answers">
+                    <li><button class="answer-button">Answer 1</button></li>
+                    <li><button class="answer-button">Answer 2</button></li>
+                    <li><button class="answer-button">Answer 3</button></li>
+                    <li><button class="answer-button">Answer 4</button></li>
+                  </ul>
+                </div>
+                <form id="initialform">
+                      <body>
+                        <h1 id="youwin">You Win!</h1>
+                        <ul id="highScoresList" style="display:none;"></ul>
+                        <br>
+                        <label for="initials">Enter your initials: </label>
+                        <input type="text" id="initials" maxlength="2">
+                        <ul id="highScoresList"></ul>
+                        <button onclick="addScore()">Enter initials</button>
+                      </body>
+                  </form> 
+            </div>
+            <ul id="newhighscoreslist"></ul>
+        </section>
+
+        <script src="C:\Users\John\bootcamp\challenges\coding-quiz\Module4\script.js"></script>
 </html>

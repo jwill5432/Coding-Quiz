@@ -1,75 +1,117 @@
-// Assignment Code
-var generateBtn = document.querySelector("#generate");
+  const startButton = document.querySelector('#startquizbutton');
+  const quizContainer = document.querySelector('#quiz-container');
+  const question = document.querySelector('#question');
+  const answers = document.querySelectorAll('.answer-button');
+  const highScoresList = document.querySelector('#highScoresList');
+  const backbutton = document.querySelector('#backbutton');
+  const topscores = document.querySelector('#topscores')
+  const timerDisplay = document.querySelector("#timer");
+  const scoreread = document.querySelector(`#scoreread`);
+  const youwin = document.querySelector(`#youwin`);
+  var enteredinitials = document.getElementById(`#initials`);
+  let score = 0;
+  let initials = "";
+  var scores = [];
+  let timerInterval;
+  initialform.style.display= `none`;
 
-// Write password to the #password input
-function writePassword() {
-  password = generatePasswordnew();
-  // this is the 
+  const quizData = [
+    {
+      question: 'What does HTML stand for?',
+      answers: ['Hyper Tool Making Language', 'Hyper Text Markup Language', 'Hyper Time Money Language', 'Heroic Tool Marketing Language'],
+      correctAnswer: 1
+    },
+    {
+      question: 'What does CSS stand for?',
+      answers: ['Cascading Style Sequence', 'Cascading Style Sheets', 'Computer Science Style', 'Conputer Styling Sequence'],
+      correctAnswer: 1
+    },
+    {
+      question: 'What does boolean represent?',
+      answers: ['If, Then', '0-9', 'A loop', 'True/False'],
+      correctAnswer: 3
+    },
+  ];
+
+  function displayQuestion() {
+    question.textContent = quizData[currentQuestionIndex].question;
+    answers.forEach((answerButton, index) => {
+      answerButton.textContent = quizData[currentQuestionIndex].answers[index];
+    });
+  }
+
+  function checkAnswer(event) {
+    const selectedAnswer = event.target;
+    const isCorrect = selectedAnswer.textContent === quizData[currentQuestionIndex].answers[quizData[currentQuestionIndex].correctAnswer];
+    if (!isCorrect) {
+      timeRemaining -= 10; // deduct time for incorrect answer
+    }
+    currentQuestionIndex++;
+    if (currentQuestionIndex === quizData.length) {
+      //alert('Quiz complete! Your score is: ' + timeRemaining + ' seconds');
+      youwin.textContent = "Quiz complete! Your score is: " + timeRemaining + " seconds";
+      endQuiz();
+      timeRemaining = ""
+      //clearInterval(timerdown)
+    } else {
+      displayQuestion();
+    }
+  }
+
+  startButton.addEventListener('click', () => {
+    starttimer()});
+    timerDisplay.style.display = 'block';
+
+    function timerdown (){
+      timeRemaining--;
+      timerDisplay.textContent = timeRemaining;
+      if (timeRemaining === 0) {
+        alert('Time is up! Your score is: 0 seconds');
+        endQuiz();
+      }
+    };
+
+  function starttimer(){
+    currentQuestionIndex= 0
+    timeRemaining = 51
+    startButton.style.display = 'none';
+    topscores.style.display = 'none';
+    quizContainer.style.display = 'block';
+    displayQuestion();
+    answers.forEach(answerButton => {
+      answerButton.addEventListener('click', checkAnswer);
+    });
+    setInterval(timerdown, 1000);
+  };
+
+  function endQuiz() {
+   initialform.style.display= `block`;
+   clearInterval(timerdown);
+   quizContainer.style.display = 'none';
+   timerDisplay.style.display = 'none';
+   saveScore();
+    //quizover()
+  }
+
+  backbutton.addEventListener('click', () => {
+    startButton.style.display = 'block';
+    topscores.style.display = 'block';
+    backbutton.style.display = 'none';
+  });
   
-  var passwordText = document.querySelector("#password");
-  //this line of code assigns the password text to the html class password to get it on the website in the part designated for it
-
-  passwordText.value = password;
- }
-
-
-function generatePasswordnew(passwordlength, passcharactersnew)
-{
-  password = "";
-  passwordText = "";
-  var passcharactersnew = ""; 
-// this window prompt asks the user to select a length for their password
-var passwordlength = window.prompt("How long do you want the password to be?");
-  if (passwordlength >= 128) {
-    password = "Use a Length Below 128";
-
-    return password;
-    // if the passwords is over 128 the function will not continue, it will instead prompt the user to use a password below 128
-  } else if (passwordlength <=8) {
-    password = "Use a Length Above 8";
-
-    return password;
-    // if the passwords is below 8 the function will not continue, it will instead prompt the user to use a password above 8
-  }
-else {
-  // if the password length is between the correct specified numbers of 8 and 128, then the below if statements prompt the user for what characters they want, and if they hit ok, then these characters are added to the pool of potental characters in the password generating function
-  passwordText= "";
-if (confirm("Include Lowercase? If not hit cancel")== true) {
-  var lowercase = "qwertyuiopasdfghjklzxcvbnm";
-  passcharactersnew = "" + lowercase;
-  //if you select ok this adds lowercase letters to the password
-};
-
-if (confirm("Inculde Uppercase? If not hit cancel")== true) {
-  var uppercase = "QWERTYUIOPASDFGHJKLZXCVBNM";
-  passcharactersnew = passcharactersnew + uppercase;
-  //if you select ok this adds uppercase letters to the password
-};
-
-if (confirm("Inculde Symbols? If not hit cancel")== true) {
-  var symbols = "~!@#$%^&*()_+?><";
-  passcharactersnew = passcharactersnew + symbols;
-  //if you select ok this adds symbols to the password
-};
-
-if (confirm("Inculde Numbers? If not hit cancel")== true) {
-  var numbers = "1234567890";
-  passcharactersnew = passcharactersnew + numbers;
-  //if you select ok this adds numbers to the password
-};
-
-let characters = passcharactersnew;
-  for (let i = 0; i < passwordlength; i++) {
-    password += characters.charAt(
-      Math.floor(Math.random() * passcharactersnew.length)
-    );
-    /*This is the for loop that uses the length and charcters from the prompt to randomly generate the password, the generated password is then returned in the line below*/
-  }
-  return password;};
-
-}
-
-// the event listener below activates the write password function when the generate password button is clicked
-generateBtn.addEventListener("click", writePassword);
-
-
+  function addScore() {
+    initials = document.getElementById("initials");
+    score = timeRemaining;
+    var list = document.getElementById("highScoresList");
+    var newItem = document.createElement("li");
+    newItem.innerHTML = initials + ": " + score;
+    list.appendChild(newItem);
+  };
+  
+  function showTopScores() {
+    highScoresList.style.display = "block";
+    startButton.style.display = 'none';
+    topscores.style.display = 'none';
+    backbutton.style.display = 'block'
+  };
+  
