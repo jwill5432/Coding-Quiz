@@ -44,15 +44,13 @@
     const selectedAnswer = event.target;
     const isCorrect = selectedAnswer.textContent === quizData[currentQuestionIndex].answers[quizData[currentQuestionIndex].correctAnswer];
     if (!isCorrect) {
-      timeRemaining -= 10; // deduct time for incorrect answer
+      timeRemaining -= 10; 
     }
     currentQuestionIndex++;
     if (currentQuestionIndex === quizData.length) {
-      //alert('Quiz complete! Your score is: ' + timeRemaining + ' seconds');
       youwin.textContent = "Quiz complete! Your score is: " + timeRemaining + " seconds";
       endQuiz();
       timeRemaining = ""
-      //clearInterval(timerdown)
     } else {
       displayQuestion();
     }
@@ -90,7 +88,6 @@
    quizContainer.style.display = 'none';
    timerDisplay.style.display = 'none';
    saveScore();
-    //quizover()
   }
 
   backbutton.addEventListener('click', () => {
